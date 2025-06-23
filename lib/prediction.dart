@@ -89,6 +89,9 @@ class _ActivityRecogState extends State<ActivityRecog>
   }
 
   int num = 0;
+  int num1 = 0;
+
+
 
 
   // MAKE FILE FOR FOR DATA WITHOUT BUFFER
@@ -113,7 +116,7 @@ class _ActivityRecogState extends State<ActivityRecog>
       'Az esense',
       'Gx esense',
       'Gy esense',
-      'Gz esense'
+      'Gz esense',
     ];
     String header = ListToCsvConverter().convert([labels], eol: '\r\n');
     num = 0;
@@ -146,7 +149,8 @@ class _ActivityRecogState extends State<ActivityRecog>
       'Az esense',
       'Gx esense',
       'Gy esense',
-      'Gz esense'
+      'Gz esense',
+      'TimeDifference_ms' 
     ];
     String header = ListToCsvConverter().convert([labels], eol: '\r\n');
     num = 0;
@@ -288,7 +292,7 @@ class _ActivityRecogState extends State<ActivityRecog>
 
   List<dynamic> watch = globals.globallatestWatchData.isNotEmpty
       ? [
-          ++num,
+          ++num1,
           dateFormatWithMs.format(DateTime.now()),
           globals.globallatestWatchData['Timestamp'],
           globals.globallatestWatchData['accelerometer']?['x'] ?? '_',
