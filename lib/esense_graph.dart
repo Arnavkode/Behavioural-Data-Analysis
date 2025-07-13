@@ -17,7 +17,6 @@ class _EGraphsState extends State<EGraphs> {
   Widget build(BuildContext context) {
     // print(globals.datalist);
     // print(globals.etimes );
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('Graphs'),
@@ -26,7 +25,7 @@ class _EGraphsState extends State<EGraphs> {
           child: Column(
             children: [
               StreamBuilder<List<dynamic>>(
-                stream: globals.EdatalistStream,
+                stream: globals.globalEsensestream,
                 builder: (context, snapshot) {
                   // globals.datalistesense.add('2');
                   // print(globals.datalistesense.toString());

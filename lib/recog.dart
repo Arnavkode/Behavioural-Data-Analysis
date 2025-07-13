@@ -83,7 +83,8 @@ class _RecogState extends State<Recog> {
           ),
 
           Expanded(
-            child: ListView.builder(
+            child:
+             ListView.builder(
               itemCount: g.options.length,
               itemBuilder: (context, index) {
                 return ListTile(

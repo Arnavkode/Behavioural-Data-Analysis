@@ -91,8 +91,8 @@ class CalibrationScreenState extends State<CalibrationScreen> {
         event.gyro?[2],
       ];
       globals.gloaballatestEsenseData = liss;
+      globals.globalupdateEsenseStream(liss);
       globals.datalistesense.add(liss + globals.activity);
-      globals.EupdateDatalist(liss);
       globals.etimes.add(DateTime.now().millisecondsSinceEpoch);
       var gyro = event.gyro != null
           ? v64.Vector3.array(event.gyro!.map((e) => e.toDouble()).toList())

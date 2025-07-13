@@ -36,6 +36,7 @@ void main() async {
 
   runApp(
     const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     ),
   );
@@ -103,10 +104,9 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin{
 
         globals.currentData = row;
         globals.datalist.add(row);
-        globals.updateDatalist(row);
         globals.times.add(DateTime.now().millisecondsSinceEpoch);
         _log.add('Received from watch: $event');
-        globals.updateWatchData(event);
+        globals.globalupdateWatchData(event);
       });
     });
 

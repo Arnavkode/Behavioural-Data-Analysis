@@ -25,7 +25,7 @@ class _GraphsState extends State<Graphs> {
       body: Column(
         children: [
           StreamBuilder<List<dynamic>>(
-            stream: globals.datalistStream,
+            stream: globals.globalEsensestream,
             builder: (context, snapshot) {
               print("hehehehe");
               print(snapshot.data);

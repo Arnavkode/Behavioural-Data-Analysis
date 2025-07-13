@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.wear_os"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "29.0.13599879"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -19,6 +19,19 @@ android {
         jvmTarget = "1.8"
     }
 
+    packagingOptions {
+    pickFirst "lib/armeabi-v7a/libpytorch_jni.so"
+    pickFirst "lib/arm64-v8a/libpytorch_jni.so"
+    pickFirst "lib/x86/libpytorch_jni.so"
+    pickFirst "lib/x86_64/libpytorch_jni.so"
+
+    pickFirst "lib/armeabi-v7a/libpytorch_vision_jni.so"
+    pickFirst "lib/arm64-v8a/libpytorch_vision_jni.so"
+    pickFirst "lib/x86/libpytorch_vision_jni.so"
+    pickFirst "lib/x86_64/libpytorch_vision_jni.so"
+  }
+
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.wear_os"
@@ -28,6 +41,10 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        ndk {
+    abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
+}
+
     }
 
     buildTypes {

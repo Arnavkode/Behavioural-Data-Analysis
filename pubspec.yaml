@@ -61,7 +61,7 @@ dependencies:
   sensors_plus: ^6.1.1
   intl: ^0.20.2
   fluttertoast: ^8.2.12
-
+  http: ^1.4.0
 # dependency_overrides:
 #   audioplayers: ^3.0.1
 #   # audioplayers_android: ^3.0.1
@@ -91,6 +91,8 @@ flutter:
   assets:
     - assets/img_act.png
     - assets/menhera-chan-chibi.gif
+    - server/model_NEW.pt
+    
 #     - images/a_dot_ham.jpeg
 
 # An image asset can refer to one or more resolution-specific "variants", see

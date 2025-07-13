@@ -62,7 +62,7 @@ class ConnectScreenState extends State<ConnectScreen> {
       _updateDevice();
     });
     if(gt.isEsenseConnected){
-      gt.startDatalistUpdates();
+      // gt.startDatalistUpdates();
     }
   }
 
