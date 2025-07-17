@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:wear_os/globals.dart' as globals;
 import 'package:wear_os/networkService.dart' as flask;
+import 'package:wear_os/util/loggingclient.dart';
 
 class Recog extends StatefulWidget {
   const Recog({super.key});
@@ -32,7 +33,7 @@ class _RecogState extends State<Recog> {
   DateTime? CurrentTime;
 
 
-
+  var client = LoggingClient();
     // Queues for raw incoming:
   final List<DataPoint> watchQueue = [];
   final List<DataPoint> esenseQueue = [];
@@ -334,11 +335,12 @@ void onStopPredicting() async {
       if(InputWindow!.isNotEmpty) InputWindow!.clear();
       lengthleft = 0;
       predictedActivity = "null";
+      _attentionStatus = null;
       _prediction = null;
       attentionPercent = null;
       bufferTimer?.cancel();
 
-      final resp = await http.post(
+      final resp = await client.post(
         Uri.parse("http://10.6.0.56:5500/end_meeting")
   ,
   headers: {
@@ -358,7 +360,7 @@ void onStopPredicting() async {
       Fluttertoast.showToast(msg: "Predicting stopped");
 
       if(response!= null){
-      Future.delayed(const Duration(milliseconds: 800));
+      
       showSuggestion(context, response["suggestion"]);
       }
   }
@@ -446,6 +448,23 @@ BuildContext context,
                 ),
 
                 const SizedBox(height: 8),
+                Container(
+              padding: const EdgeInsets.all(16.0), // inner spacing
+              decoration: BoxDecoration(
+                color: Colors.white, // background color
+                border: Border.all(
+                  color: const Color.fromARGB(255, 242, 40, 195), // outline color
+                  width: 2.0, // outline thickness
+                ),
+                borderRadius:
+                    BorderRadius.circular(12), // circular corners (12px radius)
+              ),
+              child: Text(
+                'Attention Percent: ${"$attentionPercent %" ?? "Nothing predicted"}',
+                style: TextStyle(color: const Color.fromARGB(255, 242, 40, 195)),
+              ),
+            ),
+                SizedBox(height: 20,),
 
                 // Your scrollable message
                 Expanded(

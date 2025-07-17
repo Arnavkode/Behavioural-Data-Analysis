@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:wear_os/util/loggingclient.dart';
+
+var client = LoggingClient();
 
 class NetworkService {
   final String _baseUrl;
@@ -11,7 +14,7 @@ class NetworkService {
   Future<List<dynamic>> fetchPrediction(List<double> flatData, String model) async {
     
     final uri = Uri.parse("$_baseUrl/predict");
-    final resp = await http.post(
+    final resp = await client.post(
   uri,
   headers: {
     'Content-Type': 'application/json',

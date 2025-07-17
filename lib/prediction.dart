@@ -54,8 +54,7 @@ class _ActivityRecogState extends State<ActivityRecog>
   @override
   void initState() {
     super.initState();
-    _net  = flask.NetworkService("http://10.6.0.56:5500");
-    print("Server initialized");
+    
   print("ActivityRecog initState called");
     initAsync();
   }
@@ -243,28 +242,9 @@ Future<void> initAsync() async {
           ];
           alignedBuffer.add(row);
 
-          print('About to add to InputWindow; row is: $row');
-          print('Types: ${row.map((e) => e.runtimeType).toList()}');
-          try {
-            InputWindow?.add(Datarow);
-          } catch (e, st) {
-            print('Cast failed here: $e\n$st');
-            rethrow;
-          }
+          
 
-          print("✨✨✨✨");
-          print("window size: ${InputWindow!.length}");
-          if (InputWindow!.length >= 50) {
-            setState(()=> lengthleft = 0);
-            print("👍👍Buffer filled");
-            startPredicting(InputWindow);
-            print("Got  prediction❤️‍🔥");
-            
-            InputWindow?.clear();
-          }
-          setState(() {
-            lengthleft ++;
-          });
+          
 
           matchedWatchIndex = i;
           matchedEsenseIndex = j;
@@ -302,78 +282,6 @@ Future<void> initAsync() async {
     }
   }
 
-  List<List<double>>? InputWindow = [];
-  List<List<double>>? Input1 = [];
-  List<List<double>>? Input2 = [];
-  Timer? PredictionTimer;
-  String? labelPredicted;
-  double? confidencePredicted;
-  int Windowsize = 50;
-  late flask.NetworkService _net;
-  List<double>? _prediction;
-
-  // ignore: non_constant_identifier_names
-List<String> Activity_classes = [
-   "Sitting + Typing on Desk",
-   "Sitting + Taking Notes", 
-   "Standing + Writing on Whiteboard",
-   "Standing + Erasing Whiteboard",
-   "Sitting + Talking + Waving Hands",
-  "Standing + Talking + Waving Hands",
-   "Sitting + Drinking Water",
-   "Sitting + Drinking Coffee",
-   "Standing + Drinking Water",
-   "Standing + Drinking Coffee",
-   "Scrolling on Phone",
-];
-
-String predictedActivity = "Null";
-int maxidx = 0;
-int max = 0;
-
-  void startPredicting(List<List<double>>? InputWindow) async {
-  if (isRecording == false) {
-    Fluttertoast.showToast(msg: "Start a session to start predicting");
-    return;
-  }
-
-  final flatInput = InputWindow?.expand((row) => row).toList();
-
-  // Ensure flatInput is not null before passing to fetchPrediction
-  if (flatInput == null) {
-    Fluttertoast.showToast(msg: "Input data is null.");
-    return;
-  }
-  print("Sending to server🚀🚀🚀: $flatInput");
-
-  final response = await _net.fetchPrediction(flatInput, globals.Model!);
-  final preds = response[0];
-  // final label = await _net.fetchPrediction(flatInput);
-  print("💫💫💫predictions: ${preds}");
-
-  // --- Corrected logic to find maxidx ---
-  if (preds.isEmpty) {
-    // Handle the case where predictions list might be empty
-    Fluttertoast.showToast(msg: "No predictions received.");
-    return;
-  }
-
-  double maxVal = preds[0]; // Initialize maxVal with the first prediction
-  int maxIdx = 0;           // Initialize maxIdx with the index of the first prediction
-
-  for (int i = 1; i < preds.length; i++) { // Start from the second element
-    if (preds[i] > maxVal) {
-      maxVal = preds[i];
-      maxIdx = i;
-    }
-  }
-  // --- End of corrected logic ---
-
-  setState(() {
-    _prediction = preds;
-    predictedActivity =  preds[maxidx] > 0.6 ? Activity_classes[maxIdx] : "Transition" ; // Use the correctly found maxIdx
-  });
-}
 
   Map<String, dynamic>? ShowWatch;
   List<dynamic>? ShowEsense;
@@ -744,9 +652,7 @@ int max = 0;
         ShowEsense = null;
         ShowWatch = null;
       });
-      if(InputWindow!.isNotEmpty) InputWindow!.clear();
-      predictedActivity = "null";
-      _prediction = null;
+      
       writesubscription?.cancel();
       writesubscription = null;
       bufferTimer?.cancel();
@@ -805,24 +711,7 @@ int max = 0;
             SizedBox(
               height: 20,
             ),
-            Container(
-              padding: const EdgeInsets.all(16.0), // inner spacing
-              decoration: BoxDecoration(
-                color: Colors.white, // background color
-                border: Border.all(
-                  color: Colors.purple, // outline color
-                  width: 2.0, // outline thickness
-                ),
-                borderRadius:
-                    BorderRadius.circular(12), // circular corners (12px radius)
-              ),
-              child: Text(
-                'Predicted : ${"$predictedActivity" ?? "Nothing predicted"}',
-                style: TextStyle(color: Colors.purple),
-              ),
-            ),
-            Text("Probabilities: $_prediction"),
-            Text("Window Size: $lengthleft"),
+           
             const SizedBox(height: 20),
             Text("Directory: ${dir?.path ?? 'Loading...'}"),
             Text("Watch Data: ${ShowWatch.toString()}"),
