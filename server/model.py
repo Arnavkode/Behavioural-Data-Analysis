@@ -1,3 +1,54 @@
+
+# import numpy as np
+# import pickle
+# import joblib
+
+# def extract_column_summaries(flat_list, seq_len=50, feat_dim=12):
+#     arr = np.array(flat_list, dtype=np.float32).reshape(seq_len, feat_dim)
+#     means = arr.mean(axis=0)
+#     stds  = arr.std(axis=0)
+#     mins  = arr.min(axis=0)
+#     maxs  = arr.max(axis=0)
+#     meds  = np.median(arr, axis=0)
+#     # Flatten per-column stats: [mean, std, min, max, median] × feat_dim
+#     summaries = []
+#     for i in range(feat_dim):
+#         summaries += [means[i], stds[i], mins[i], maxs[i], meds[i]]
+#     return summaries
+
+# # svm_wrapper.py (or model.py)
+
+# class SVMWrapper:
+#     def __init__(self,
+#                  model_path="svm_activity_model.pkl",
+#                  scaler_path="scaler.pkl"):
+#         # load the SVM
+#         with open(model_path, "rb") as f:
+#             self.model = joblib.load(f)
+#         # load the scaler (only if you saved one)
+#         self.scaler = joblib.load(scaler_path)
+
+#     def predict(self, flat_list):
+#         # 1) compute your 60-dim summary_feats as before...
+#         summary_feats = extract_column_summaries(flat_list, seq_len=50, feat_dim=12)
+
+#         # 2) scale them exactly as in training
+#         X = np.array(summary_feats, dtype=np.float32).reshape(1, -1)
+#         X_scaled = self.scaler.transform(X)
+
+#         # 3) get probabilities
+#         probs = self.model.predict_proba(X_scaled)[0].tolist()
+#         return probs
+
+
+
+
+
+
+
+
+
+
 # # xgb_wrapper.py
 
 
@@ -34,7 +85,7 @@ def extract_column_summaries(flat_list, seq_len=50, feat_dim=12):
     return summaries
 
 class XGBWrapper:
-    def __init__(self, model_path="xgboost_with_11classes.pkl"):
+    def __init__(self, model_path="xgboost_activity_model.pkl"):
         with open(model_path, "rb") as f:
             self.model = pickle.load(f)
 
@@ -81,12 +132,12 @@ class XGBWrapper:
 #         print(proba)
 #         return proba
 
-    # def predict_batch(self, windows):
-    #     """
-    #     windows: list of 2D arrays shape (seq_len, features)
-    #     Returns the hard predictions per window.
-    #     """
-    #     # flatten each window
-    #     batch = np.array([w.flatten() for w in windows], dtype=np.float32)
-    #     preds = self.model.predict(batch).tolist()
-    #     return preds
+#     def predict_batch(self, windows):
+#         """
+#         windows: list of 2D arrays shape (seq_len, features)
+#         Returns the hard predictions per window.
+#         """
+#         # flatten each window
+#         batch = np.array([w.flatten() for w in windows], dtype=np.float32)
+#         preds = self.model.predict(batch).tolist()
+#         return preds

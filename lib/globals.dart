@@ -79,6 +79,8 @@ void stopDatalistUpdates() {
 
 // NEW IMPLEMENT
 
+String? Model;
+
 Map<String, dynamic> globallatestWatchData = {};
 List<dynamic> gloaballatestEsenseData = [];
 

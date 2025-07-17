@@ -25,14 +25,15 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Complex Behaviour Recognition'),
               bottom: const TabBar(
                 tabs: [
-                  Tab(
-                    text: 'Activity',
-                  ),
+                 
                   Tab(
                     text: 'Watch',
                   ),
                   Tab(
                     text: 'Esense',
+                  ),
+                   Tab(
+                    text: 'Prediction',
                   ),
                   Tab(
                     text: 'Combined',
@@ -42,9 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             body: const TabBarView(
               children: <Widget>[
-                Recog(),
+                
                 MyApp(),
                 TabControl(),
+                Recog(),
                 ActivityRecog()
               ],
             )));

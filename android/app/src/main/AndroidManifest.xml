@@ -11,7 +11,7 @@
 
 
    <application
-        android:label="Mobile"
+        android:label="MeetLog Mobile"
         android:requestLegacyExternalStorage="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"

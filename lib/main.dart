@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:hive/hive.dart';
 import 'package:is_wear/is_wear.dart';
@@ -17,6 +18,7 @@ import 'package:wear_os/graphs.dart';
 import 'package:wear_os/homescreen.dart';
 import 'package:wear_os/pongsense.dart';
 import 'globals.dart' as globals;
+import 'package:device_info_plus/device_info_plus.dart';
 
 late final bool isWear;
 
@@ -81,7 +83,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin{
   void initState() {
     super.initState();
     initAsync();
-
+    
     _watch = WatchConnectivity();
 
     // Listen for watch data
@@ -134,9 +136,12 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin{
     super.dispose();
   }
 
-  
+
   void initAsync() async {
     await requestAllPermissions();
+    
+    
+    
     
   }
 

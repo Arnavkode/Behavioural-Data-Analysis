@@ -54,7 +54,7 @@ class _ActivityRecogState extends State<ActivityRecog>
   @override
   void initState() {
     super.initState();
-    _net  = flask.NetworkService("http://192.168.0.104:5000");
+    _net  = flask.NetworkService("http://10.6.0.56:5500");
     print("Server initialized");
   print("ActivityRecog initState called");
     initAsync();
@@ -199,6 +199,7 @@ Future<void> initAsync() async {
     _tryAlign();
   }
 
+  int lengthleft = 0;
   void _tryAlign() {
     if (watchQueue.isEmpty || esenseQueue.isEmpty) return;
 
@@ -254,11 +255,16 @@ Future<void> initAsync() async {
           print("✨✨✨✨");
           print("window size: ${InputWindow!.length}");
           if (InputWindow!.length >= 50) {
+            setState(()=> lengthleft = 0);
             print("👍👍Buffer filled");
             startPredicting(InputWindow);
             print("Got  prediction❤️‍🔥");
+            
             InputWindow?.clear();
           }
+          setState(() {
+            lengthleft ++;
+          });
 
           matchedWatchIndex = i;
           matchedEsenseIndex = j;
@@ -340,7 +346,8 @@ int max = 0;
   }
   print("Sending to server🚀🚀🚀: $flatInput");
 
-  final preds = await _net.fetchPrediction(flatInput);
+  final response = await _net.fetchPrediction(flatInput, globals.Model!);
+  final preds = response[0];
   // final label = await _net.fetchPrediction(flatInput);
   print("💫💫💫predictions: ${preds}");
 
@@ -364,7 +371,7 @@ int max = 0;
 
   setState(() {
     _prediction = preds;
-    predictedActivity = Activity_classes[maxIdx]; // Use the correctly found maxIdx
+    predictedActivity =  preds[maxidx] > 0.6 ? Activity_classes[maxIdx] : "Transition" ; // Use the correctly found maxIdx
   });
 }
 
@@ -815,6 +822,7 @@ int max = 0;
               ),
             ),
             Text("Probabilities: $_prediction"),
+            Text("Window Size: $lengthleft"),
             const SizedBox(height: 20),
             Text("Directory: ${dir?.path ?? 'Loading...'}"),
             Text("Watch Data: ${ShowWatch.toString()}"),
